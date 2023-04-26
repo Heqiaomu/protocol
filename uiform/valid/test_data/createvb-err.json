@@ -1,0 +1,384 @@
+{
+  "id": "resources/drivers/functions/create-host/Input/undefined",
+  "title": {
+    "text": "驱动配置",
+    "docLink": "BLANK"
+  },
+  "fold": false,
+  "showType": "list",
+  "fields": [
+    {
+      "id": "drivers/host/id",
+      "title": {
+        "text": "主机驱动",
+        "docLink": "BLANK"
+      },
+      "edit": true,
+      "value": [
+        "Virtualbox,virtualboxv1_2_7"
+      ],
+      "defaultValue": [
+        "Kubernetes,k8sv1_1_6"
+      ],
+      "inputReacts": [
+        {
+          "triggerRegex": "^Kubernetes,k8sv1_1_6$",
+          "reactType": "showInput",
+          "urlReact": {
+            "name": {},
+            "method": "get",
+            "url": "/stdb/api/v1.0/form/instance/new/detail?driverId=DRIVER-0bac4ce918cf42909db84c26a748ac81\u0026",
+            "body": {}
+          }
+        },
+        {
+          "triggerRegex": "^Virtualbox,virtualboxv1_2_7$",
+          "reactType": "showInput",
+          "urlReact": {
+            "name": {},
+            "method": "get",
+            "url": "/stdb/api/v1.0/form/instance/new/detail?driverId=DRIVER-57a474b9ef5c4656a27853ebdb246a7c\u0026",
+            "body": {}
+          },
+          "inputs": [
+            {
+              "id": "virtualboxv1_2_7/host/depend/Input",
+              "title": {},
+              "fold": false,
+              "showType": "list",
+              "subInputs": [
+                {
+                  "id": "virtualboxv1_2_7/host/Input",
+                  "title": {
+                    "text": "主机配置",
+                    "docLink": "BLANK"
+                  },
+                  "fold": false,
+                  "showType": "list",
+                  "fields": [
+                    {
+                      "id": "virtualboxv1_2_7/host/name",
+                      "title": {
+                        "text": "主机名称",
+                        "docLink": "BLANK"
+                      },
+                      "edit": true,
+                      "value": [
+                        "testcheck1&"
+                      ],
+                      "defaultValue": [
+                        ""
+                      ],
+                      "inputType": "input",
+                      "validate": {
+                        "@type": "type.googleapis.com/ui.ValidateInput",
+                        "validateDes": "2-20个汉字、字母和数字至少包含1种",
+                        "require": true,
+                        "requireDes": "请输入主机名称",
+                        "regex": "^[a-zA-Z0-9\\u4e00-\\u9fa5]{2,20}$",
+                        "regexDes": "请输入符合格式的主机名称",
+                        "placeHolder": "请输入"
+                      }
+                    },
+                    {
+                      "id": "virtualboxv1_2_7/host/cpu",
+                      "title": {
+                        "text": "CPU",
+                        "docLink": "BLANK"
+                      },
+                      "edit": true,
+                      "value": [
+                        "1核"
+                      ],
+                      "defaultValue": [
+                        "1核"
+                      ],
+                      "inputType": "text"
+                    },
+                    {
+                      "id": "virtualboxv1_2_7/host/memory",
+                      "title": {
+                        "text": "内存",
+                        "docLink": "BLANK"
+                      },
+                      "edit": true,
+                      "value": [
+                        "1G"
+                      ],
+                      "defaultValue": [
+                        "1G"
+                      ],
+                      "inputType": "text"
+                    },
+                    {
+                      "id": "virtualboxv1_2_7/host/disk",
+                      "title": {
+                        "text": "磁盘",
+                        "docLink": "BLANK"
+                      },
+                      "edit": true,
+                      "value": [
+                        "20G"
+                      ],
+                      "defaultValue": [
+                        "20G"
+                      ],
+                      "inputType": "text"
+                    },
+                    {
+                      "id": "virtualboxv1_2_7/host/bandwidth",
+                      "title": {
+                        "text": "带宽",
+                        "docLink": "BLANK"
+                      },
+                      "edit": true,
+                      "value": [
+                        "100M"
+                      ],
+                      "defaultValue": [
+                        "100M"
+                      ],
+                      "inputType": "text"
+                    },
+                    {
+                      "id": "virtualboxv1_2_7/host/form_sdk_zone",
+                      "title": {
+                        "text": "可用区",
+                        "docLink": "BLANK"
+                      },
+                      "edit": true,
+                      "value": [
+                        "虚拟机集群5区"
+                      ],
+                      "defaultValue": [
+                        ""
+                      ],
+                      "inputReacts": [
+                        {
+                          "triggerRegex": "虚拟机集群1区",
+                          "reactType": "showInput",
+                          "urlReact": {}
+                        },
+                        {
+                          "triggerRegex": "虚拟机集群2区",
+                          "reactType": "showInput",
+                          "urlReact": {}
+                        },
+                        {
+                          "triggerRegex": "虚拟机集群3区",
+                          "reactType": "showInput",
+                          "urlReact": {}
+                        },
+                        {
+                          "triggerRegex": "虚拟机集群4区",
+                          "reactType": "showInput",
+                          "urlReact": {}
+                        },
+                        {
+                          "triggerRegex": "虚拟机集群5区",
+                          "reactType": "showInput",
+                          "urlReact": {},
+                          "inputs": [
+                            {
+                              "id": "virtualboxv1_2_7/host/domain5/Input",
+                              "title": {},
+                              "fold": false,
+                              "showType": "list",
+                              "fields": [
+                                {
+                                  "id": "virtualboxv1_2_7/host/domain5",
+                                  "title": {
+                                    "text": "域信息",
+                                    "docLink": "BLANK"
+                                  },
+                                  "edit": true,
+                                  "value": [
+                                    "172.16.30.72"
+                                  ],
+                                  "defaultValue": [
+                                    "172.16.30.72"
+                                  ],
+                                  "inputType": "text"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ],
+                      "inputType": "select",
+                      "validate": {
+                        "@type": "type.googleapis.com/ui.ValidateSelect",
+                        "require": true,
+                        "options": [
+                          {
+                            "id": "虚拟机集群5区",
+                            "text": "虚拟机集群5区 (剩余资源数量:2)",
+                            "docLink": "BLANK"
+                          },
+                          {
+                            "id": "虚拟机集群4区",
+                            "text": "虚拟机集群4区 (剩余资源数量:1)",
+                            "docLink": "BLANK"
+                          },
+                          {
+                            "id": "虚拟机集群3区",
+                            "text": "虚拟机集群3区 (剩余资源数量:4)",
+                            "docLink": "BLANK"
+                          }
+                        ],
+                        "maxCount": "1",
+                        "minCount": "1"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "virtualboxv1_2_7/host/depend/credentials/Input",
+                  "title": {
+                    "text": "凭证配置",
+                    "docLink": "BLANK"
+                  },
+                  "fold": false,
+                  "showType": "list",
+                  "fields": [
+                    {
+                      "id": "virtualboxv1_2_7/host/credentials/id",
+                      "title": {
+                        "text": "凭证名称",
+                        "docLink": "BLANK"
+                      },
+                      "edit": true,
+                      "value": [
+                        "21"
+                      ],
+                      "defaultValue": [
+                        "21"
+                      ],
+                      "inputReacts": [
+                        {
+                          "triggerRegex": "^21$",
+                          "reactType": "showInputByUrl",
+                          "urlReact": {
+                            "name": {},
+                            "method": "get",
+                            "url": "/stdb/api/v1.0/form/credential/owned/21?",
+                            "body": {}
+                          },
+                          "inputs": [
+                            {
+                              "id": "credential/owned/info/0/-514067636",
+                              "title": {},
+                              "fold": false,
+                              "showType": "info"
+                            }
+                          ]
+                        }
+                      ],
+                      "inputType": "select",
+                      "validate": {
+                        "@type": "type.googleapis.com/ui.ValidateSelect",
+                        "require": true,
+                        "options": [
+                          {
+                            "id": "21",
+                            "text": "test",
+                            "docLink": "BLANK"
+                          }
+                        ],
+                        "maxCount": "1",
+                        "minCount": "1"
+                      },
+                      "buttons": [
+                        {
+                          "id": "virtualboxv1_2_7/host/credentials/create/Button",
+                          "title": {
+                            "text": "创建凭证",
+                            "docLink": "BLANK"
+                          },
+                          "edit": true,
+                          "value": [
+                            ""
+                          ],
+                          "defaultValue": [
+                            ""
+                          ],
+                          "inputReacts": [
+                            {
+                              "triggerRegex": ".*",
+                              "reactType": "showInput",
+                              "urlReact": {
+                                "name": {},
+                                "method": "get",
+                                "url": "/stdb/api/v1.0/form/credential/new/detail?driverId=virtualboxv1_2_7\u0026",
+                                "body": {
+                                  "title": {},
+                                  "fold": false,
+                                  "showType": "list"
+                                }
+                              }
+                            }
+                          ],
+                          "inputType": "button"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "Buttons": [
+                {
+                  "name": {
+                    "text": "创建",
+                    "docLink": "BLANK"
+                  },
+                  "method": "post",
+                  "url": "/stdb/api/v1.0/instance/create?driverId=DRIVER-57a474b9ef5c4656a27853ebdb246a7c",
+                  "body": {}
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "inputType": "cascader",
+      "validate": {
+        "@type": "type.googleapis.com/ui.ValidateSelect",
+        "require": true,
+        "options": [
+          {
+            "id": "Kubernetes",
+            "text": "Kubernetes",
+            "docLink": "BLANK",
+            "subNames": [
+              {
+                "id": "k8sv1_1_6",
+                "text": "v1.1.6",
+                "docLink": "BLANK"
+              }
+            ]
+          },
+          {
+            "id": "Virtualbox",
+            "text": "Virtualbox",
+            "docLink": "BLANK",
+            "subNames": [
+              {
+                "id": "virtualboxv1_2_7",
+                "text": "v1.2.7",
+                "docLink": "BLANK"
+              }
+            ]
+          }
+        ],
+        "maxCount": "1",
+        "minCount": "1"
+      },
+      "links": [
+        {
+          "text": "什么是主机驱动?",
+          "docLink": "http://console.develop.blocface.baas.hyperchain.cn/document/detail?type=1\u0026id=3"
+        }
+      ]
+    }
+  ]
+}

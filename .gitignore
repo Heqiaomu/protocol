@@ -1,0 +1,5 @@
+/bin/protoc-gen-go
+.idea/
+/node_modules/
+/package.json
+/package-lock.json

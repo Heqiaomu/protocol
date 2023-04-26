@@ -1,0 +1,292 @@
+syntax = "proto3";
+
+package ui;
+
+option go_package = "github.com/Heqiaomu/protocol/ui";
+
+import "google/protobuf/any.proto";
+import "google/protobuf/wrappers.proto";
+
+// API规范和UI协议
+// 名字
+message Name {
+    string id = 1; // 名字主键，作为选择框下拉菜单时可以作为选项的key
+    string text = 2; // 名称文字
+    string description = 3; // 对该名词的解释
+    string docLink = 4; // 帮助文档链接
+    repeated Name subNames = 5; // 子级名字
+    map<string, string> meta = 50; // 拓展字段
+}
+// 输出域
+message Output {
+    string id = 1; // 主键，表示该条资源的主键
+    Name title = 2; // 输出域标题名
+    google.protobuf.BoolValue fold = 3; // 是否折叠隐藏
+    repeated OutputField fields = 4; // 该项下显示的字段
+    repeated Output subOutputs = 5; // 子输出域
+    map<string, string> meta = 50; // 拓展字段
+}
+// 输出项
+message OutputField {
+    string id = 1; // 输出项唯一标志
+    Name title = 2; // 字段名
+    repeated string value = 3; // 字段值
+    string format = 4; // 字段值格式，例如 text、json、markdown、pre、array、image、dateTime、date，缺省为text
+    map<string, string> mate = 50; // 拓展字段
+}
+// 输入域
+message Input {
+    string id = 1; // 输入域主键
+    Name title = 2; // 输入域标题名
+    google.protobuf.BoolValue fold = 3; // 折叠隐藏，缺省为false
+    string showType = 4; // 展示输入域的类型：list（列表形式展示）、table（表格形式展示）、info（展示参数，参数放meta字段），缺省为list形式
+    repeated InputField fields = 5; // 该域下显示的字段
+    repeated Input subInputs = 6; // 子输入域
+    repeated UrlAction Buttons = 7; // 按钮组
+    string UIFormVersion = 8; // 表单版本，用于处理表单的逻辑
+    map<string, string> tag = 9; // 标签，用于标记某些具有特定性质的输入域
+    map<string, string> meta = 50; // 拓展字段
+}
+// 输入项
+message InputField {
+    string id = 1; // 输入项唯一标志
+    Name title = 2; // 字段名
+    google.protobuf.BoolValue edit = 3; // 是否可编辑
+    repeated string value = 4; // 值
+    repeated string defaultValue = 5; // 默认值，支持 ${inputFieldId} 形式动态填充对应inputFieldId的value值
+    repeated InputReact inputReacts = 6; // 输入联动，目前只支持如果显示子配置项的联动
+    string inputType = 7; // 输入类型，例如：input、inputs、numberInput、numberInputs、switch、select、radio、file、files、date、time、dateTime、numberRange、button
+    google.protobuf.Any validate = 8; // 各个控件的特殊属性和校验逻辑
+    repeated InputField buttons = 9; // 按钮
+    repeated Name links = 10; // 连接说明
+    string key = 11; // 字段关键字
+    map<string, string> tag = 12; // 标签，用于标记某些具有特定性质的输入项，比如标记port，表示该输入项是一个端口
+    bool invisible = 13; // 是否可见, false表示可见；true表示隐藏
+    map<string, string> meta = 50; // 拓展字段
+}
+// 输入文本
+message ValidateInput {
+    string validateDes = 1; // 常驻提示
+    google.protobuf.BoolValue require = 2; // 是否必填
+    string requireDes = 3; // 如果必填，但是用户未填写时的提示
+    string regex = 4; // 正则校验
+    string regexDes = 5; // 如果有正则校验，但是用户填写未符合正则格式时的提示
+    string placeHolder = 6; // 占位提示
+    map<string, string> meta = 50; // 拓展字段
+}
+// 输入多条文本
+message ValidateInputs {
+    string validateDes = 1; // 常驻提示
+    google.protobuf.BoolValue require = 2; // 是否必填
+    string requireDes = 3; // 如果必填，但是用户未填写时的提示
+    string regex = 4; // 正则校验
+    string regexDes = 5; // 如果有正则校验，但是用户填写未符合正则格式时的提示
+    string placeHolder = 6; // 占位提示
+    int64 maxCount = 7; // 最大输入条数
+    int64 minCount = 8; // 最小输入条数
+    map<string, string> meta = 50; // 拓展字段
+}
+// 输入数字
+message ValidateNumber {
+    string validateDes = 1; // 常驻提示
+    google.protobuf.BoolValue require = 2; // 是否必填
+    string requireDes = 3; // 如果必填，但是用户未填写时的提示
+    string step = 4; // 数字变化的步长
+    string max = 5; // 最大值
+    string min = 6; // 最小值
+    string mid = 7; // 中间值
+    string unit = 8; // 单位
+    map<string, string> meta = 50; // 拓展字段
+}
+// 输入多条数字
+message ValidateNumbers {
+    string validateDes = 1; // 常驻提示
+    google.protobuf.BoolValue require = 2; // 是否必填
+    string requireDes = 3; // 如果必填，但是用户未填写时的提示
+    string step = 4; // 数字变化的步长
+    string max = 5; // 最大值
+    string min = 6; // 最小值
+    string mid = 7; // 中间值
+    string unit = 8; // 单位
+    int64 maxCount = 9; // 最大输入条数
+    int64 minCount = 10; // 最小输入条数
+    map<string, string> meta = 50; // 拓展字段
+}
+// 开关
+message ValidateSwitch {
+    string validateDes = 1; // 常驻提示
+    google.protobuf.BoolValue require = 2; // 是否必填
+    string requireDes = 3; // 如果必填，但是用户未填写时的提示
+    map<string, string> meta = 50; // 拓展字段
+}
+// 选择器
+message ValidateSelect {
+    string validateDes = 1; // 常驻提示
+    google.protobuf.BoolValue require = 2; // 是否必填
+    string requireDes = 3; // 如果必填，但是用户未填写时的提示
+    repeated Name options = 4; // 选择项
+    repeated string labels = 8; // 选择项标签 如果有2级选择，这里就是两个元素
+    int64 maxCount = 5; // 最大选择数
+    int64 minCount = 6; // 最小选择数
+    string placeHolder = 7; // 占位提示
+    map<string, string> meta = 50; // 拓展字段
+}
+// 上传文件
+message ValidateFile {
+    string validateDes = 1; // 常驻提示
+    google.protobuf.BoolValue require = 2; // 是否必填
+    string requireDes = 3; // 如果必填，但是用户未填写时的提示
+    string regex = 4; // 正则校验
+    string regexDes = 5; // 如果有正则校验，但是用户填写未符合正则格式时的提示
+    string placeHolder = 6; // 占位提示
+    repeated string fileName = 7; // 文件名
+    string fileNameRegex = 8; // 文件名正则校验
+    string fileNameRegexDes = 9; // 如果有正则校验，但是用户填写未符合正则格式时的提示
+    string fileNameSuffix = 10; // 支持的文件名后缀，如果支持多个，用','隔开，例如： '.zip,.tar.gz'
+    string url = 11; // 文件上传的HTTP URL地址，采用post请求
+    string min = 12; // 文件大小下限 字节
+    string max = 13; // 文件大小上限 字节
+    map<string, string> meta = 50; // 拓展字段
+}
+// 上传多个文件
+message ValidateFiles {
+    string validateDes = 1; // 常驻提示
+    google.protobuf.BoolValue require = 2; // 是否必填
+    string requireDes = 3; // 如果必填，但是用户未填写时的提示
+    string regex = 4; // 正则校验
+    string regexDes = 5; // 如果有正则校验，但是用户填写未符合正则格式时的提示
+    string placeHolder = 6; // 占位提示
+    repeated string fileName = 7; // 文件名
+    string fileNameRegex = 8; // 文件名正则校验
+    string fileNameRegexDes = 9; // 如果有正则校验，但是用户填写未符合正则格式时的提示
+    int64 maxCount = 10; // 最大上传文件数
+    int64 minCount = 11; // 最小上传文件数
+    string fileNameSuffix = 12; // 支持的文件名后缀，如果支持多个，用','隔开，例如： '.zip,.tar.gz'
+    string url = 13; // 文件上传的HTTP URL地址，采用post请求
+    string min = 14; // 文件大小下限 字节
+    string max = 15; // 文件大小上限 字节
+    map<string, string> meta = 50; // 拓展字段
+}
+// 输入联动
+message InputReact {
+    string triggerRegex = 1; // 如果输入值符合该正则表达式，则触发联动
+    string reactType = 2; // 联动类型，例如：显示子配置项showInput,showInputsByNumber,showInputByUrl
+    UrlAction urlReact = 3; // 发送请求
+    repeated Input inputs = 4; // 输入项
+    string targetInputId = 5; // 将输入项显示到指定的输入域下面
+    map<string, string> meta = 50; // 拓展字段
+}
+// 根据请求url显示输入项
+message UrlAction {
+    string id = 1;
+    Name name = 2; // 动作名
+    string method = 3; // HTTP动词，例如GET、POST、DELETE、PUT、PATCH
+    string url = 4; // HTTP地址
+    Input body = 5; // 输入域
+    map<string, string> meta = 50; // 拓展字段
+}
+// 资源列表
+message Resources {
+    repeated ResourceBrief resourceBriefs = 1; // 资源简介列表
+    repeated UrlAction functions = 2; // 资源功能
+    map<string, string> meta = 50; // 拓展字段
+}
+// 资源简介
+message ResourceBrief {
+    string id = 1; // 资源主键
+    repeated OutputField fields = 2; // 资源字段
+    repeated UrlAction actions = 3; // 资源动作
+    map<string, string> meta = 50; // 拓展字段
+}
+// 资源
+message Resource {
+    string id = 1; // 资源主键
+    repeated Output outputs = 2; // 资源输出项
+    repeated UrlAction actions = 3; // 资源动作
+    map<string, string> meta = 50; // 拓展字段
+}
+// 菜单列表
+message Menus {
+    repeated Menu menus = 1;
+}
+// 菜单项
+message Menu {
+    string resourcesId = 1; // 资源集名，例如drivers、compositions、hosts、blockchains
+    Name name = 2; // 显示的资源集名，例如驱动、编排、主机、区块链
+}
+// 获取资源列表的请求参数
+message GetResourcesReq {
+    string resourcesId = 1; // 资源名，例如drivers、compositions、hosts、blockchains
+    string filter = 2;
+    string order = 3;
+    string sort = 4;
+    string start = 5;
+    string size = 6;
+}
+// 查询资源详情
+message GetResourceReq {
+    string resourcesId = 1; // 资源名，例如drivers、compositions、hosts、blockchains
+    string resourceId = 2; // 资源示例主键，例如1、2、3
+}
+// 获取执行资源动作的输入参数
+message GetResourceActionInputReq {
+    string resourcesId = 1; // 资源名，例如drivers、compositions、hosts、blockchains
+    string resourceId = 2; // 资源示例主键，例如1、2、3
+    string actionId = 3; // 动作名，例如create、delete
+    string resourceType = 4; // 资源类型，对应数据库的表名，例如 chain、node
+    string resourceTypeID = 5; // 资源类型的主键，对应数据库表的主键，例如 4、500
+    string lifeCycleUUID = 6; // 驱动生命周期的唯一UUID
+}
+// 执行资源的某个动作
+message DoResourceActionReq {
+    string resourcesId = 1; // 资源名，例如drivers、compositions、hosts、blockchains
+    string resourceId = 2; // 资源示例主键，例如1、2、3
+    string actionId = 3; // 动作名，例如create、delete
+    Input input = 4; // 输入参数
+    string lifeCycleUUID = 5; // 驱动生命周期的唯一UUID
+}
+// 获取对资源集进行操作的输入参数
+message GetResourcesFunctionReq {
+    string resourcesId = 1; // 资源名，例如drivers、compositions、hosts、blockchains
+    string functionId = 2; // // 资源功能，例如id-list，upload
+    string filter = 3;
+    string order = 4;
+    string sort = 5;
+    string start = 6;
+    string size = 7;
+}
+// 对资源集进行操作
+message DoResourcesFunctionReq {
+    string resourcesId = 1; // 资源名，例如drivers、compositions、hosts、chains
+    string functionId = 2; // // 资源功能，例如id-list，upload
+    Input input = 3; // 输入参数
+}
+// 驱动表数组
+message DriverTables {
+    repeated DriverTable drivers = 1;
+}
+// 驱动表
+message DriverTable {
+    int64 ID = 1;
+    string TimeCreate = 2;
+    string TimeUpdate = 3;
+    string UUID = 4;
+    Name Name = 5;
+    string Version = 6;
+    string Logo = 7;
+    Name Type = 8;
+    repeated string Resources = 9;
+    repeated ActionTable Actions = 10;
+    string Readme = 11;
+    string Tag = 12;
+}
+// 动作表
+message ActionTable {
+    string UUID = 1;
+    Name Name = 2;
+    string Target = 3;
+    repeated string AvailableStates = 4;
+    bool IsSystem = 5;
+    string Tag = 6;
+}
+
